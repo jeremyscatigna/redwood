@@ -1,6 +1,6 @@
 import { gql } from 'src/main'
 
-import { makeMergedSchema } from '../makeMergedSchema/makeMergedSchema'
+import { makeMergedSchema } from './makeMergedSchema'
 
 describe('makeMergedSchema', () => {
   // Simulate `importAll`
@@ -50,7 +50,7 @@ describe('makeMergedSchema', () => {
 
   describe('Query Type', () => {
     const queryType = schema.getType('Query')
-    const queryFields = queryType.getFields()
+    const queryFields = queryType?.getFields()
 
     it('Resolver functions are mapped correctly.', () => {
       expect(queryFields.inResolver.resolve()).toEqual(
@@ -73,7 +73,7 @@ describe('makeMergedSchema', () => {
 
   describe('MyOwnType', () => {
     const myOwnType = schema.getType('MyOwnType')
-    const myOwnTypeFields = myOwnType.getFields()
+    const myOwnTypeFields = myOwnType?.getFields()
 
     it('Resolver functions are mapped correctly', () => {
       expect(myOwnTypeFields.inTypeResolverAndServices.resolve()).toEqual(

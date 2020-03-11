@@ -8,7 +8,7 @@ const mapFieldsToService = ({
   fields = {},
   resolvers: unmappedResolvers,
   services,
-}) =>
+}: any) =>
   Object.keys(fields).reduce((resolvers, name) => {
     // Does the function already exist in the resolvers from the schema definition?
     if (resolvers?.[name]) {
@@ -21,7 +21,7 @@ const mapFieldsToService = ({
         ...resolvers,
         // Map the arguments from GraphQL to an ordinary function a service would
         // expect.
-        [name]: (root, args, context) =>
+        [name]: (root: any, args: any, context: any) =>
           services[name](args, { root, context }),
       }
     }
@@ -34,7 +34,7 @@ const mapFieldsToService = ({
  * are missing, it then tries to add the missing resolvers from the corresponding
  * service.
  */
-const mergeResolversWithServices = ({ schema, resolvers, services }) => {
+const mergeResolversWithServices = ({ schema, resolvers, services }: any) => {
   const mergedServices = merge(
     {},
     ...Object.keys(services).map((name) => services[name])
@@ -77,13 +77,13 @@ const mergeResolversWithServices = ({ schema, resolvers, services }) => {
   )
 }
 
-const mergeResolvers = (schemas) =>
+const mergeResolvers = (schemas: any) =>
   omitBy(
     merge(
       {},
       ...[
         rootSchema.resolvers,
-        ...Object.values(schemas).map(({ resolvers }) => resolvers),
+        ...Object.values(schemas).map(({ resolvers }: any) => resolvers),
       ]
     ),
     (v) => typeof v === 'undefined'
@@ -103,11 +103,11 @@ const mergeResolvers = (schemas) =>
  * })
  * ```
  */
-export const makeMergedSchema = ({ schemas, services }) => {
+export const makeMergedSchema = ({ schemas, services }: any) => {
   const schema = mergeSchemas({
     schemas: [
       rootSchema.schema,
-      ...Object.values(schemas).map(({ schema }) => schema),
+      ...Object.values(schemas).map(({ schema }: any) => schema),
     ],
   })
 
